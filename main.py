@@ -39,33 +39,49 @@
 # response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}")
 # print(response.json())
 import json
+import requests
 
+#
+# def get_avg_for_city(path: str, city: str) -> bool:
+#     """Получение сведений температуры за неделю для города"""
+#     try:
+#         with open(path) as city_file:
+#             try:
+#                 city_data = json.load(city_file)
+#             except json.JSONDecodeError:
+#                 print("Ошибка декодирования файла")
+#                 return False
+#     except FileNotFoundError:
+#         print("Файл не найден")
+#         return False
+#
+#     avg_temp = round(sum(city_data[city].values()) / len(city_data[city].keys()), 2)
+#     out_data ={
+#         city:{
+#             'Average temperature': avg_temp
+#         }
+#     }
+#
+#     with open("out.json", "w") as out_file:
+#         json.dump(out_data, out_file, indent=4)
+#
+#     return True
+#
+#
+# if __name__ == '__main__':
+#   get_avg_for_city("data.json", "Moscow")
 
-def get_avg_for_city(path: str, city: str) -> bool:
-    """Получение сведений температуры за неделю для города"""
-    try:
-        with open(path) as city_file:
-            try:
-                city_data = json.load(city_file)
-            except json.JSONDecodeError:
-                print("Ошибка декодирования файла")
-                return False
-    except FileNotFoundError:
-        print("Файл не найден")
-        return False
+def get_github_repos(username: str) -> list[str]:
+    """Получение списков репозиториев пользователя"""
+    response = requests.get(f"https://api.github.com/users/{username}/repos")
 
-    avg_temp = round(sum(city_data[city].values()) / len(city_data[city].keys()), 2)
-    out_data ={
-        city:{
-            'Average temperature': avg_temp
-        }
-    }
+    if response.status_code == 200:
+        repos = [repo["full_name"] for repo in response.json()]
+    else:
+        repos = list()
 
-    with open("out.json", "w") as out_file:
-        json.dump(out_data, out_file, indent=4)
+    return repos
 
-    return True
-
-
-if __name__ == '__main__':
-  get_avg_for_city("data.json", "Moscow")
+if __name__ == "__main__":
+    repos = get_github_repos('octocat')
+    print(repos)
