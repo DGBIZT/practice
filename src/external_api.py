@@ -1,7 +1,11 @@
 import requests
 from utils import get_for_city
 import json
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+api_key = os.getenv("API_KEY")
 def transaction_amount(transaction_list: list) ->list:
    """Функция принимает на вход транзакцию и возвращает сумму транзакции в рублях"""
    new_list = []
@@ -15,7 +19,7 @@ def transaction_amount(transaction_list: list) ->list:
 
          payload = {}
          headers = {
-            "apikey": "LwqW6cyJj0lTTO1Lj8nU84MRjD3g590a"
+            "apikey": f"{api_key}"
          }
 
          response = requests.request("GET", url, headers=headers, data=payload)
