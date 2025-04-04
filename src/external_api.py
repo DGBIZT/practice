@@ -1,39 +1,33 @@
 import requests
-# from utils import get_for_city
+from utils import get_for_city
+import json
 
-# def transaction_amount(rub: str, currency: str, amount: int) ->int:
-#    """Функция принимает на вход транзакцию и возвращает сумму транзакции в рублях"""
-#    url = f"https://api.apilayer.com/exchangerates_data/convert?to={rub}&from={currency}&amount={amount}"
-#
-#    payload = {}
-#    headers = {
-#        "apikey": "4eqwQKlbHSqkmPa0xAJQamC7lY4sszYL"
-#    }
-#
-#    response = requests.request("GET", url, headers=headers, data=payload)
-#
-#    status_code = response.status_code
-#    result = response.text
+def transaction_amount(transaction_list: list) ->list:
+   """Функция принимает на вход транзакцию и возвращает сумму транзакции в рублях"""
+   new_list = []
+   for transaction in transaction_list:
+      if 'operationAmount' in transaction and transaction['operationAmount']['currency']['code'] != "RUB":
+         to_forex = "RUB"
+         from_forex = transaction['operationAmount']['currency']['code']
+         amount_forex = transaction['operationAmount']['amount']
 
+         url = f"https://api.apilayer.com/exchangerates_data/convert?to={to_forex}&from={from_forex}&amount={amount_forex}"
 
+         payload = {}
+         headers = {
+            "apikey": "LwqW6cyJj0lTTO1Lj8nU84MRjD3g590a"
+         }
 
+         response = requests.request("GET", url, headers=headers, data=payload)
 
-# # a = get_for_city("data/operations.json")
-# print(transaction_amount("RUB", "USD", 50))
-# # print(a)
-a = "RUB"
-b = "USD"
-c = 25
-url = f"https://api.apilayer.com/exchangerates_data/convert?to={a}&from={b}&amount={c}"
+         # status_code = response.status_code
+         result = response.text
+         json_data = json.loads(result)
+         transaction['operationAmount']['amount'] = json_data["result"]
+      new_list.append(transaction['operationAmount']['amount'])
+   return new_list
 
-payload = {}
-headers= {
-  "apikey": "4eqwQKlbHSqkmPa0xAJQamC7lY4sszYL"
-}
+transaction_json_list = get_for_city("data/operations.json")
 
-response = requests.request("GET", url, headers=headers, data = payload)
+print(transaction_amount(transaction_json_list))
 
-status_code = response.status_code
-result = response.text
-
-print(result)

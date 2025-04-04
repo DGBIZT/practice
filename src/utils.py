@@ -13,7 +13,7 @@ def get_for_city(file_path: str) -> list:
     except FileNotFoundError:
         return list()
 
-print(get_for_city("data/operations.json"))
+# print(get_for_city("data/operations.json"))
 
 
 
