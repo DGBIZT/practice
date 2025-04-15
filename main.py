@@ -1,51 +1,40 @@
-import logging
-from src.save_to_file import save_to_file
-from src.news import get_news
-from datetime import datetime
+# import logging
+# from src.save_to_file import save_to_file
+# from src.news import get_news
+# from datetime import datetime
 
-
-logger = logging.getLogger("main")
-logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler('logs/main.log', mode='a', encoding="utf-8", delay=False)
-file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s)')
-file_handler.setFormatter(file_formatter)
-logger.addHandler(file_handler)
-
-
-def main():
-    """Главная функция для работы приложения"""
-    try:
-        logger.info('запрос у пользователя ключевых слов')
-
-        query = input("Введите ключевые слова:  ")
-        exclude_word = input("Введите слова фильтрации (через запятую):  ").split(',')
-        today = datetime.today()
-        today_string = today.strftime("%Y-%m-%d")
-
-        logger.info('Получение новостей')
-        articles_list = get_news(query, exclude_word )
-
-        logger.info('Запись новостей в файл')
-        file_name = f'{today_string}_{query.replace(" ", "_")}.json'
-        file_path = f'news/{file_name}'
-        save_to_file(articles_list, file_path)
-
-    except Exception as ex:
-        logger.error(f"Произошла ошибка: {ex}")
-
-if __name__ == '__main__':
-    main()
-
-
-
-
-
-
-
-
-
-
-
+#
+# logger = logging.getLogger("main")
+# logger.setLevel(logging.INFO)
+# file_handler = logging.FileHandler('logs/main.log', mode='a', encoding="utf-8", delay=False)
+# file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s)')
+# file_handler.setFormatter(file_formatter)
+# logger.addHandler(file_handler)
+#
+#
+# def main():
+#     """Главная функция для работы приложения"""
+#     try:
+#         logger.info('запрос у пользователя ключевых слов')
+#
+#         query = input("Введите ключевые слова:  ")
+#         exclude_word = input("Введите слова фильтрации (через запятую):  ").split(',')
+#         today = datetime.today()
+#         today_string = today.strftime("%Y-%m-%d")
+#
+#         logger.info('Получение новостей')
+#         articles_list = get_news(query, exclude_word )
+#
+#         logger.info('Запись новостей в файл')
+#         file_name = f'{today_string}_{query.replace(" ", "_")}.json'
+#         file_path = f'news/{file_name}'
+#         save_to_file(articles_list, file_path)
+#
+#     except Exception as ex:
+#         logger.error(f"Произошла ошибка: {ex}")
+#
+# if __name__ == '__main__':
+#     main()
 
 
 # import logging
@@ -200,3 +189,18 @@ import requests
 # a = "25"
 # a = float(a)
 # print(type(a))
+
+
+def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> list[dict[str, str]]:
+    list_my = list()
+    for item in list_dict:
+        for value in item.values():
+            if value == search_string:
+                list_my.append(item)
+    return list_my
+
+
+
+my_dict = [{'apple': 'red'}, {'banana': 'yellow'}, {'cherry': 'red'}]
+
+print(list_dict_operation(my_dict, "red"))
