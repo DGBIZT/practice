@@ -92,8 +92,8 @@
 #
 # response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}")
 # print(response.json())
-import json
-import requests
+# import json
+# import requests
 
 #
 # def get_avg_for_city(path: str, city: str) -> bool:
@@ -190,11 +190,14 @@ import requests
 # a = float(a)
 # print(type(a))
 
+import re
 
 def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> list[dict[str, str]]:
+
     list_my = list()
     for item in list_dict:
         for value in item.values():
+
             if value == search_string:
                 list_my.append(item)
     return list_my
@@ -202,5 +205,13 @@ def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> 
 
 
 my_dict = [{'apple': 'red'}, {'banana': 'yellow'}, {'cherry': 'red'}]
+pattern = re.compile(r'red')
+my_list = list()
+for item in my_dict:
+    b = item['apple']
+    if pattern.match(b):
+        my_list.append(item)
+print(my_list)
 
-print(list_dict_operation(my_dict, "red"))
+
+# print(list_dict_operation(my_dict, "red"))
