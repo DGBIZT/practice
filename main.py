@@ -208,8 +208,8 @@ my_dict = [{'apple': 'red'}, {'banana': 'yellow'}, {'cherry': 'red'}]
 pattern = re.compile(r'red')
 my_list = list()
 for item in my_dict:
-    b = item['apple']
-    if pattern.match(b):
+    b = item.get('apple')
+    if b and pattern.match(b):
         my_list.append(item)
 print(my_list)
 
