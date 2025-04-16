@@ -224,7 +224,7 @@ print(list_dict_operation(list_sort_data, "EXECUTED"))
 
 # print(list_dict_operation(my_dict, "red"))
 
-def count_operations_by_category(operations, categories):
+def count_operations_by_category(operations: list[dict[str, str]], categories: list) -> dict:
     category_count = {category: 0 for category in categories}
     for operation in operations:
         category = operation.get("description")
