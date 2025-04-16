@@ -189,18 +189,19 @@
 # a = "25"
 # a = float(a)
 # print(type(a))
-
-import re
+#########################################################################
+import re, collections
+from collections import Counter
 
 def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> list[dict[str, str]]:
 
     pattern = re.compile(search_string)
-    my_list = list()
+    new_list_dict = list()
     for item in list_dict:
         b= item.get("state")
         if b and pattern.match(b):
-            my_list.append(item)
-    return my_list
+            new_list_dict.append(item)
+    return new_list_dict
 
 
 list_sort_data =  [
@@ -211,6 +212,37 @@ list_sort_data =  [
     ]
 
 print(list_dict_operation(list_sort_data, "EXECUTED"))
+
+def count_operations_by_category(operations: list[dict[str, str]], categories: list) -> dict:
+
+    # all_categories = [operation.get("description") for operation in operations]
+
+    all_categories = list()
+
+    for operation in operations:
+        transaction_category = operation.get("description")
+        all_categories.append(transaction_category)
+
+    category_count = Counter(all_categories)
+
+    # filtered_category_count = {category: category_count[category] for category in categories}
+    filtered_category_count = {}
+    for category in categories:
+        if category in category_count:
+            filtered_category_count[category] = category_count[category]
+
+    return filtered_category_count
+
+operations = [
+    {"id": 1, "amount": 100.0, "description": "groceries"},
+    {"id": 2, "amount": 200.0, "description": "utilities"},
+    {"id": 3, "amount": 50.0, "description": "groceries"},
+    {"id": 4, "amount": 150.0, "description": "entertainment"},
+]
+
+categories = ["groceries", "utilities", "entertainment", "transport"]
+
+print(count_operations_by_category(operations, categories))
 
 # my_dict = [{'apple': 'red'}, {'banana': 'yellow'}, {'cherry': 'red'}]
 # pattern = re.compile(r'red')
@@ -224,26 +256,19 @@ print(list_dict_operation(list_sort_data, "EXECUTED"))
 
 # print(list_dict_operation(my_dict, "red"))
 
-def count_operations_by_category(operations: list[dict[str, str]], categories: list) -> dict:
-    category_count = {category: 0 for category in categories}
-    for operation in operations:
-        category = operation.get("description")
-        if category in category_count:
-            category_count[category] += 1
-    return category_count
+# def count_operations_by_category(operations: list[dict[str, str]], categories: list) -> dict:
+#     category_count = {category: 0 for category in categories}
+#     for operation in operations:
+#         category = operation.get("description")
+#         if category in category_count:
+#             category_count[category] += 1
+#     return category_count
 
 #Пример использования функции
-operations = [
-    {"id": 1, "amount": 100.0, "description": "groceries"},
-    {"id": 2, "amount": 200.0, "description": "utilities"},
-    {"id": 3, "amount": 50.0, "description": "groceries"},
-    {"id": 4, "amount": 150.0, "description": "entertainment"},
-]
 
-categories = ["groceries", "utilities", "entertainment", "transport"]
 
-result = count_operations_by_category(operations, categories)
-print(result)
+# result = count_operations_by_category(operations, categories)
+# print(result)
 
 # category_count = {}
 # for category in categories:
@@ -251,8 +276,12 @@ print(result)
 # print(category_count)
 #
 # for operation in operations:
+#
 #     category = operation.get("description")
 #     if category in category_count:
 #         category_count[category] += 1
 #
+#
 # print(category_count)
+
+
