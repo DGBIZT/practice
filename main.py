@@ -194,24 +194,65 @@ import re
 
 def list_dict_operation(list_dict: list[dict[str, str]], search_string: str) -> list[dict[str, str]]:
 
-    list_my = list()
+    pattern = re.compile(search_string)
+    my_list = list()
     for item in list_dict:
-        for value in item.values():
-
-            if value == search_string:
-                list_my.append(item)
-    return list_my
-
+        b= item.get("state")
+        if b and pattern.match(b):
+            my_list.append(item)
+    return my_list
 
 
-my_dict = [{'apple': 'red'}, {'banana': 'yellow'}, {'cherry': 'red'}]
-pattern = re.compile(r'red')
-my_list = list()
-for item in my_dict:
-    b = item.get('apple')
-    if b and pattern.match(b):
-        my_list.append(item)
-print(my_list)
+list_sort_data =  [
+        {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+        {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
+        {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+        {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+    ]
+
+print(list_dict_operation(list_sort_data, "EXECUTED"))
+
+# my_dict = [{'apple': 'red'}, {'banana': 'yellow'}, {'cherry': 'red'}]
+# pattern = re.compile(r'red')
+# my_list = list()
+# for item in my_dict:
+#     b = item.get('apple')
+#     if b and pattern.match(b):
+#         my_list.append(item)
+# print(my_list)
 
 
 # print(list_dict_operation(my_dict, "red"))
+
+def count_operations_by_category(operations, categories):
+    category_count = {category: 0 for category in categories}
+    for operation in operations:
+        category = operation.get("description")
+        if category in category_count:
+            category_count[category] += 1
+    return category_count
+
+#Пример использования функции
+operations = [
+    {"id": 1, "amount": 100.0, "description": "groceries"},
+    {"id": 2, "amount": 200.0, "description": "utilities"},
+    {"id": 3, "amount": 50.0, "description": "groceries"},
+    {"id": 4, "amount": 150.0, "description": "entertainment"},
+]
+
+categories = ["groceries", "utilities", "entertainment", "transport"]
+
+result = count_operations_by_category(operations, categories)
+print(result)
+
+# category_count = {}
+# for category in categories:
+#     category_count[category] = 0
+# print(category_count)
+#
+# for operation in operations:
+#     category = operation.get("description")
+#     if category in category_count:
+#         category_count[category] += 1
+#
+# print(category_count)
