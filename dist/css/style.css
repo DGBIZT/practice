@@ -1,0 +1,56 @@
+/*.button-link {*/
+/*    display: block; !* Делаем элемент блочным *!*/
+/*    width: 100%;    !* Задаем ширину 100% *!*/
+/*    padding: 10px 20px;           !* Отступы внутри кнопки *!*/
+/*    background-color: #007bff;    !* Цвет фона *!*/
+/*    color: white;                 !* Цвет текста *!*/
+/*    text-decoration: none;        !* Убираем подчеркивание *!*/
+/*    border-radius: 5px;           !* Скругление углов *!*/
+/*    cursor: pointer;              !* Курсор в виде руки *!*/
+/*    font-size: 16px;              !* Размер шрифта *!*/
+/*    transition: 0.3s;             !* Плавные переходы *!*/
+/*}*/
+
+/*.button-link:hover {*/
+/*    background-color: #0056b3;    !* Цвет при наведении *!*/
+/*}*/
+
+/*.button-link:active {*/
+/*    transform: translateY(2px);    !* Эффект нажатия *!*/
+/*}*/
+
+/* Базовый стиль для всех кнопок */
+.button-link {
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    color: white; /* Цвет текста для неактивной кнопки */
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+/* Стиль для активной кнопки */
+.button-link.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Общие стили при наведении */
+.button-link:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* Эффект нажатия */
+.button-link:active {
+    transform: translateY(2px);
+}
+
+/* Дополнительные стили для неактивной кнопки при наведении */
+.button-link:not(.active):hover {
+    background-color: rgba(0, 123, 255, 0.25); /* Легкий фон при наведении */
+}
